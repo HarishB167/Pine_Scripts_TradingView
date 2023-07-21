@@ -1,0 +1,13 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © harishbb168
+
+//@version=5
+indicator("Horizontal line over PDH and PDL", overlay=true)
+
+[previous_day_high, previous_day_low] = request.security(syminfo.tickerid, "1D", [high[0], low[0]])
+
+plot(previous_day_high, title='PDH', color=color.green, linewidth=3, style=plot.style_line, trackprice=true)
+
+plot(previous_day_low, title='PDL', color=color.red, linewidth=3, style=plot.style_line, trackprice=true)
+
+
