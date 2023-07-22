@@ -1,0 +1,21 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © harishbb168
+
+//@version=5
+indicator("Uptrend / Downtrend for PDH PDL setup", overlay=true)
+
+getRange(max, min) => math.abs(max - min)
+
+getTrendLine(lastDayHigh, lastDayLow, todayClose, todayHigh, todayLow) => 
+    result = todayLow + (todayLow/todayHigh)/2
+    if lastDayHigh < todayClose
+        result := todayHigh + getRange(todayHigh, todayLow)
+    else if lastDayLow > todayClose
+        result := todayLow - getRange(todayHigh, todayLow)
+    result
+    
+
+// For change to uptrend line goes above high, for change to downtrend line goes below low, for no change line is in between.
+stream = request.security(syminfo.tickerid, "1D", getTrendLine(high[1], low[1], close[0], high[0], low[0]))
+
+plot(stream, title='PDH', color=color.aqua, linewidth=3, style=plot.style_stepline_diamond, trackprice=true)
